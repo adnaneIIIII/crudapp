@@ -8,7 +8,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { BellRing, CircleUser, MessageSquareMore, Search } from "lucide-react";
 import React from "react";
@@ -41,7 +40,7 @@ function Navbar() {
           <BellRing className="w-6 h-6" />
         </Button>
         <div>
-          <ModeToggle />
+            <ModeToggle/>
         </div>
         <div className="flex flex-col">
           <span className="text-sm leading-3 font-medium">
@@ -49,6 +48,7 @@ function Navbar() {
           </span>
           <span className="text-xs  text-gray-600 text-right">Admin</span>
         </div>
+
         <div className="flex gap-4 items-center justify-end">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -56,7 +56,7 @@ function Navbar() {
                 <CircleUser className="w-6 h-6" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-6 h-6"  sideOffset={6}>
+            <DropdownMenuContent align="end" sideOffset={6}>
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
