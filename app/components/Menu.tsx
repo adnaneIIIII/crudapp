@@ -14,7 +14,7 @@ import { usePathname } from "next/navigation";
 
 const navlinks = [
   {
-    title: "admin",
+    title: "Dashboard",
     items: [
       {
         icon: Home,
@@ -71,7 +71,7 @@ function Menu() {
                 key={item.title}
                 className={cn(
                   item.link === pathname
-                    ? "text-gray-800 font-medium flex gap-2 bg-slate-100 "
+                    ? "font-medium flex gap-2"
                     : "text-muted-foreground hover:text-foreground ",
                   "flex gap-2 px-2 rounded-lg text-sm py-3 items-center"
                 )}
@@ -79,7 +79,7 @@ function Menu() {
                 <item.icon
                   className={cn(
                     item.link === pathname
-                      ? " font-bold flex gap-2 bg-slate-200 "
+                      ? " font-bold flex gap-2"
                       : "text-muted-foreground hover:text-foreground font-normal",
                     ""
                   )}
