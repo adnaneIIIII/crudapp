@@ -10,6 +10,7 @@ export const ourFileRouter = {
   imageUploader: f({ image: { maxFileSize: "4MB", maxFileCount: 10 } })
     // Set permissions and file types for this FileRoute
     .middleware(async ({ req }) => {
+      // This code runs on your server before upload
       const { getUser } = getKindeServerSession();
       const user = await getUser();
 
@@ -30,7 +31,10 @@ export const ourFileRouter = {
       return { uploadedBy: metadata.userId };
     }),
 
-  categoryimageRoute: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
+
+
+
+    bannerImageRoute: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
     // Set permissions and file types for this FileRoute
     .middleware(async ({ req }) => {
       // This code runs on your server before upload
@@ -38,7 +42,7 @@ export const ourFileRouter = {
       const user = await getUser();
 
       // If you throw, the user will not be able to upload
-      if (!user || user.email === "admin@hog.com")
+      if (!user || user.email !== "adnane.elotmani@usmba.ac.ma")
         throw new UploadThingError("Unauthorized");
 
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
@@ -53,6 +57,10 @@ export const ourFileRouter = {
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
       return { uploadedBy: metadata.userId };
     }),
+
+
+
+
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

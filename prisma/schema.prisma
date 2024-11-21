@@ -42,9 +42,10 @@ enum ProductStatus{
 }
 
 model categories{
-  id            String @id @unique
+  id            String @id @default(uuid())
   name          String
   description   String
+  images        String
   createAt      DateTime @default(now())
 }
 
