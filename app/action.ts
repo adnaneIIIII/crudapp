@@ -29,8 +29,6 @@ export async function createCategory(prevState: unknown, formData: FormData) {
 }
 
 
-
-
 export async function deleteCategory(formData: FormData) {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
@@ -48,17 +46,12 @@ export async function deleteCategory(formData: FormData) {
 }
 
 
-
-
-
-
-
 export async function createProduct(prevState: unknown, formData: FormData) {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
-  if (!user || user.email === "admin@hog.com") {
-    return redirect("/dashboard");
+  if (!user || user.email !== "adnane.elotmani@usmba.ac.ma") {
+    return redirect("/");
   }
 
   const submission = parseWithZod(formData, {
@@ -76,12 +69,30 @@ export async function createProduct(prevState: unknown, formData: FormData) {
     data: {
       name: submission.value.name,
       description: submission.value.description,
-      status: submission.value.status,
       price: submission.value.price,
-      images: flattenUrls,
       category: submission.value.category,
-      isFeatured: submission.value.isFeatured === true ? true : false,
+      images: flattenUrls,
+      isFeatured: submission.value.isFeatured,
+      status: submission.value.status,
+
     },
   });
-  redirect("/dashboard/products");
+  redirect("/admin/products");
+}
+
+
+export async function deleteProduct(formData: FormData) {
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+
+  if (!user || user.email !== "adnane.elotmani@usmba.ac.ma") {
+    return redirect("/");
+  }
+
+  await prisma.product.delete({
+    where: {
+      id: formData.get("productId") as string,
+    },
+  });
+  redirect("/admin/products");
 }

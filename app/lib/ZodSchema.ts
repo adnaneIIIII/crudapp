@@ -14,6 +14,6 @@ export const productSchema = z.object({
       message: "Price must be a floating-point number.",
     }),
     images: z.array(z.string()).min(1, "At least one image is required"),
-    category: z.enum(["men", "women", "kids"]),
+    category: z.string(),
     isFeatured: z.boolean().optional(),
   });

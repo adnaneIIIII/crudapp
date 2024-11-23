@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { MoreHorizontal, PlusCircle } from "lucide-react";
-import Link from "next/link";
 import React from "react";
+import Link from "next/link";
+import Image from "next/image";
 import {
   Table,
   TableBody,
@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
+  Card,
   CardContent,
   CardDescription,
   CardHeader,
@@ -25,40 +26,61 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-export default function ProductRoot() {
+import prisma from "@/app/lib/db";
+
+async function getData() {
+  const data = await prisma.product.findMany({
+    orderBy: {
+      createAt: "desc",
+    },
+  });
+  return data;
+}
+
+export default async function Products() {
+  const data = await getData();
   return (
-    <div className="w-full lg:w-full  mt-8">
-      <div className="gap-4 flex flex-col">
-        <Button asChild className="flex items-center gap-x-2 w-36">
+    <>
+      <div className="flex items-center justify-start">
+        <Button asChild className="flex items-center gap-x-2 ">
           <Link href="./products/create" className="flex items-center">
             <PlusCircle className="w-3.5 h-3.5" />
             <span>Add Products</span>
           </Link>
         </Button>
-        <Card className="mt-6">
-          <CardHeader>
-            <CardTitle>Products</CardTitle>
-            <CardDescription>View all your products</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[100px]">Image</TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Price</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell>Image</TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell>Price</TableCell>
-                  <TableCell>Date</TableCell>
+      </div>
+      <Card className="mt-5">
+        <CardHeader>
+          <CardTitle>Products</CardTitle>
+          <CardDescription>View all your products</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px]">Image</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Price</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell>
+                    <Image
+                      src={item.images[0]}
+                      width={100}
+                      height={100}
+                      alt="rounded-md object-cover h-16 w-16"
+                    />
+                  </TableCell>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.status}</TableCell>
+                  <TableCell>{item.price}</TableCell>
+                  <TableCell>{item.createAt.toLocaleDateString()}</TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -73,20 +95,23 @@ export default function ProductRoot() {
                         <DropdownMenuLabel>Action</DropdownMenuLabel>
                         <DropdownMenuSeparator className="mt-1" />
                         <DropdownMenuItem asChild>
-                          <Link href="">Edite</Link>
+                          <Link href={`/admin/products/${item.id}`}>
+                            Edite
+                          </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <Link href="">delete</Link>
-                        </DropdownMenuItem>
+                          <Link href={`/admin/products/${item.id}/delete`}>
+                            delete
+                          </Link></DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
                 </TableRow>
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </>
   );
 }

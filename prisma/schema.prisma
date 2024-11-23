@@ -27,7 +27,7 @@ model Product{
   id            String @id @default(uuid())
   name          String
   description   String
-  status        ProductStatus
+  status        String
   price         Float
   images        String[]
   category      String
@@ -35,11 +35,7 @@ model Product{
   createAt      DateTime @default(now())
 }
 
-enum ProductStatus{
-  draft
-  published
-  archived
-}
+
 
 model categories{
   id            String @id @default(uuid())

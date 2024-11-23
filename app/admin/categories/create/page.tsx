@@ -89,9 +89,10 @@ function CreateRoot() {
                 />
                 {Images !== undefined ? (
                   <Image
-                    src={Images}
+                    src={Images || ""}
                     width={200}
                     height={200}
+                    defaultValue={fields.images.initialValue || ""}
                     alt="Product Image"
                     className="w-[200px] h-[200px] object-cover border rounded-lg"
                   />

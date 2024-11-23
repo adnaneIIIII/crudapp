@@ -23,18 +23,30 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { ChevronLeft, XIcon } from "lucide-react";
 import Link from "next/link";
-import React, { useActionState, useState } from "react";
+import React, { useActionState, useEffect, useState } from "react";
 import { UploadDropzone } from "@/app/lib/uploadthing";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-
 
 import Image from "next/image";
 import { SubmiteBotton } from "@/app/components/submitebutton";
 import { createProduct } from "@/app/action";
 import { productSchema } from "@/app/lib/ZodSchema";
+import { getcateData } from "@/app/components/categories";
 
 export default function Create() {
+  const [categories, setCategories] = useState<any>([]);
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  const getCategories=async() => {
+    const result = await getcateData();
+    setCategories(result);
+    console.log("categories", result);
+  };
+
   const [images, setImages] = useState<string[]>([]);
 
   const [lastResult, action] = useActionState(createProduct, undefined);
@@ -53,7 +65,7 @@ export default function Create() {
     <form id={from.id} onSubmit={from.onSubmit} action={action}>
       <div className="flex items-center gap-4 ">
         <Button variant={"outline"} size={"icon"} asChild>
-          <Link href={"/dashboard/products"}>
+          <Link href={"/admin/products"}>
             <ChevronLeft className="w-4 h-4" />
           </Link>
         </Button>
@@ -129,6 +141,7 @@ export default function Create() {
               <p className="text-red-500">{fields.status.errors}</p>
             </div>
             <div className="flex flex-col gap-3">
+            
               <Label>Category</Label>
               <Select
                 key={fields.category.key}
@@ -138,9 +151,11 @@ export default function Create() {
                 <SelectTrigger className="text-left py-2 pl-4">
                   <SelectValue placeholder="Select Category" />
                 </SelectTrigger>
-                  <SelectContent>
-                    
-                  </SelectContent>
+                <SelectContent>
+                {categories&&categories.map((cat: any, index: number) => (
+                  <SelectItem key={index} value={cat.name}>{cat.name}</SelectItem>
+                ))}
+                </SelectContent>
               </Select>
               <p className="text-red-500">{fields.category.errors}</p>
             </div>
@@ -190,7 +205,7 @@ export default function Create() {
           </div>
         </CardContent>
         <CardFooter className="flex justify-end">
-          <SubmiteBotton text="Create Product"/>
+          <SubmiteBotton text="Create Product" />
         </CardFooter>
       </Card>
     </form>
