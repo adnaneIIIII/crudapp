@@ -18,6 +18,10 @@
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-switch": "^1.1.1",
+    "@tiptap/extension-underline": "^2.10.2",
+    "@tiptap/pm": "^2.10.2",
+    "@tiptap/react": "^2.10.2",
+    "@tiptap/starter-kit": "^2.10.2",
     "@uploadthing/react": "^7.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -29,6 +33,7 @@
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^7.3.0",
+    "uuid": "^11.0.3",
     "zod": "^3.23.8"
   },
   "devDependencies": {

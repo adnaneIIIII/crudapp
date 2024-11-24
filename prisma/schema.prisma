@@ -45,3 +45,13 @@ model categories{
   createAt      DateTime @default(now())
 }
 
+
+model page{
+  id            String @id @default(uuid())
+  title         String
+  body          String
+  author        String
+  status        String
+  createAt      DateTime @default(now())
+}
+

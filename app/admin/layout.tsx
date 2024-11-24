@@ -11,34 +11,35 @@ export default function DashboardLayout({
 }) {
   return (
     <ThemeProvider
-    attribute="class"
-    defaultTheme="system"
-    enableSystem
-    disableTransitionOnChange
-  >
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      <div className=" w-[14%] md:w-[8%] lg:w-[16%] xl:w-[14%]  ">
-        <Link
-          href="/"
-          className="flex items-center justify-center lg:justify-start gap-2 p-3"
-        >
-          <Image src={"/logo.svg"} alt="logo" width={50} height={40} />
-          <span className="hidden lg:block font-bold text-lg ">
-            GoldenShop
-          </span>
-        </Link>
-        <div className="sticky top-0">
-        <Menu />
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <div className="flex h-screen">
+        {/* Sidebar */}
+        <div className=" w-[14%] md:w-[8%] lg:w-[16%] xl:w-[14%]  ">
+          <Link
+            href="/"
+            className="flex items-center justify-center lg:justify-start gap-2 p-3"
+          >
+            <Image src={"/logo.svg"} alt="logo" width={50} height={40} />
+            <span className="hidden lg:block font-bold text-lg ">
+              GoldenShop
+            </span>
+          </Link>
+          <div className="sticky top-0">
+            <Menu />
+          </div>
+        </div>
+        {/* Main content */}
+        <div className="w-full">
+          <Navbar />
+          <div className="w-[90%] md:w-3/4 justify-center mx-auto">
+            {children}
+          </div>
         </div>
       </div>
-      {/* Main content */}
-      <div className="w-full">
-     <Navbar/>
-          {children}
-          
-      </div>
-    </div>
     </ThemeProvider>
   );
 }

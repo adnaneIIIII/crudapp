@@ -41,7 +41,7 @@ export default function Create() {
     getCategories();
   }, []);
 
-  const getCategories=async() => {
+  const getCategories = async () => {
     const result = await getcateData();
     setCategories(result);
     console.log("categories", result);
@@ -141,7 +141,6 @@ export default function Create() {
               <p className="text-red-500">{fields.status.errors}</p>
             </div>
             <div className="flex flex-col gap-3">
-            
               <Label>Category</Label>
               <Select
                 key={fields.category.key}
@@ -152,9 +151,12 @@ export default function Create() {
                   <SelectValue placeholder="Select Category" />
                 </SelectTrigger>
                 <SelectContent>
-                {categories&&categories.map((cat: any, index: number) => (
-                  <SelectItem key={index} value={cat.name}>{cat.name}</SelectItem>
-                ))}
+                  {categories &&
+                    categories.map((cat: any, index: number) => (
+                      <SelectItem key={index} value={cat.name}>
+                        {cat.name}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
               <p className="text-red-500">{fields.category.errors}</p>

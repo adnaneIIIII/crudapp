@@ -71,6 +71,7 @@ function CreateRoot() {
               <div className="flex flex-col gap-3">
                 <Label>Description</Label>
                 <Textarea
+                  
                   key={fields.description.key}
                   name={fields.description.name}
                   defaultValue={fields.name.initialValue || ""}

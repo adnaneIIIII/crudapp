@@ -27,10 +27,8 @@ import React, { useActionState, useEffect, useState } from "react";
 import { UploadDropzone } from "@/app/lib/uploadthing";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-
 import Image from "next/image";
 import { SubmiteBotton } from "@/app/components/submitebutton";
-import { type $Enums } from "@prisma/client";
 import { productSchema } from "@/app/lib/ZodSchema";
 import { Edite } from "@/app/action";
 import { getcateData } from "../categories";
@@ -39,8 +37,8 @@ type IAppProps = {
   data: {
     images: string[];
     name: string;
+    state: any;
     description: string;
-    status: $Enums.ProductStatus;
     price: number;
     category: any;
     isFeatured: boolean;
@@ -49,22 +47,18 @@ type IAppProps = {
   };
 };
 
-
 function Editeform({ data }: IAppProps) {
+  const [categories, setCategories] = useState<any>([]);
 
-    const [categories, setCategories] = useState<any>([]);
+  useEffect(() => {
+    getCategories();
+  }, []);
 
-    useEffect(() => {
-      getCategories();
-    }, []);
-  
-    const getCategories=async() => {
-      const result = await getcateData();
-      setCategories(result);
-      console.log("categories", result);
-    };
-
-
+  const getCategories = async () => {
+    const result = await getcateData();
+    setCategories(result);
+    console.log("categories", result);
+  };
 
   const [images, setImages] = useState<string[]>(data.images);
 
@@ -90,7 +84,7 @@ function Editeform({ data }: IAppProps) {
             <ChevronLeft className="w-4 h-4" />
           </Link>
         </Button>
-        
+
         <h1 className="text-xl font-semi-bold tracking-tighter">New Product</h1>
       </div>
       <Card className="mt-5">
@@ -149,7 +143,7 @@ function Editeform({ data }: IAppProps) {
               <Select
                 key={fields.status.key}
                 name={fields.status.name}
-                defaultValue={data.status}
+                defaultValue={fields.status.initialValue}
               >
                 <SelectTrigger className="text-left py-2 pl-4">
                   <SelectValue placeholder="Select Status" />
@@ -163,7 +157,7 @@ function Editeform({ data }: IAppProps) {
               <p className="text-red-500">{fields.status.errors}</p>
             </div>
             <div className="flex flex-col gap-3">
-            <Label>Category</Label>
+              <Label>Category</Label>
               <Select
                 key={fields.category.key}
                 name={fields.category.name}
@@ -173,9 +167,12 @@ function Editeform({ data }: IAppProps) {
                   <SelectValue placeholder="Select Category" />
                 </SelectTrigger>
                 <SelectContent>
-                {categories&&categories.map((cat: any, index: number) => (
-                  <SelectItem key={index} value={cat.name}>{cat.name}</SelectItem>
-                ))}
+                  {categories &&
+                    categories.map((cat: any, index: number) => (
+                      <SelectItem key={index} value={cat.name}>
+                        {cat.name}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
               <p className="text-red-500">{fields.category.errors}</p>
